@@ -1,7 +1,6 @@
 package usecases
 
 import (
-	"fmt"
 	"github.com/altheaix/RealApiWithCA/internal/domain"
 )
 
@@ -9,7 +8,7 @@ type GetUserInput struct {
 }
 
 type GetUserUseCase interface {
-	GetUsers() ([]domain.User, error)
+	GetUsers() (*[]domain.User, error)
 }
 
 func NewGetUserCase(userRepo domain.UserRepository) GetUserUseCase {
@@ -20,14 +19,11 @@ type getUserUseCase struct {
 	userRepo domain.UserRepository
 }
 
-func (g *getUserUseCase) GetUsers() ([]domain.User, error) {
-	var users []domain.User
-
-	for i := range domain.USER {
-		users = append(users, *domain.USER[i])
+func (g *getUserUseCase) GetUsers() (*[]domain.User, error) {
+	users, err := g.userRepo.GetUsers()
+	if err != nil {
+		return nil, err
 	}
 
-	fmt.Println(users)
-
-	return users, nil
+	return users, err
 }

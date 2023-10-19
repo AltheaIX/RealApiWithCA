@@ -11,4 +11,5 @@ type User struct {
 
 type UserRepository interface {
 	Create(user *User) error
+	GetUsers() (*[]User, error)
 }
